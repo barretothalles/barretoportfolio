@@ -158,44 +158,9 @@
     if (lenis) open ? lenis.stop() : lenis.start();
   });
 
-  /* ─────────── Scroll reveals ─────────── */
-  if (!prefersReduced) {
-    /* split headings: animate .li lines on enter */
-    document.querySelectorAll(".sec-title, .profile-lead").forEach((el) => {
-      gsap.from(el, {
-        opacity: 0, y: 50, duration: 1, ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 85%" },
-      });
-    });
-
-    document.querySelectorAll(".fade-up").forEach((el) => {
-      gsap.to(el, {
-        opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 88%" },
-      });
-    });
-
-    document.querySelectorAll(".reveal-img").forEach((el) => {
-      gsap.to(el, {
-        clipPath: "inset(0 0 0% 0)", duration: 1.2, ease: "power4.out",
-        scrollTrigger: { trigger: el, start: "top 82%" },
-      });
-    });
-
-    /* stats grid stagger */
-    gsap.from(".stat", {
-      opacity: 0, y: 40, duration: 0.8, ease: "power3.out", stagger: 0.08,
-      scrollTrigger: { trigger: ".impact-grid", start: "top 85%" },
-    });
-
-    /* contact title lines */
-    gsap.to(".contact-title .li", {
-      y: 0, duration: 1.1, ease: "power4.out", stagger: 0.12,
-      scrollTrigger: { trigger: ".contact", start: "top 70%" },
-    });
-  } else {
-    document.querySelectorAll(".contact-title .li").forEach((el) => (el.style.transform = "none"));
-  }
+  /* Content below the hero is intentionally static. This avoids the visual
+     shimmer caused by moving sections over viewport-fixed effects. */
+  document.querySelectorAll(".contact-title .li").forEach((el) => (el.style.transform = "none"));
 
   /* ─────────── Count-up stats ─────────── */
   document.querySelectorAll(".count").forEach((el) => {
@@ -208,7 +173,10 @@
     gsap.to(obj, {
       v: value, duration: 1.8, ease: "power2.out",
       scrollTrigger: { trigger: el, start: "top 88%", once: true },
-      onUpdate: () => { el.textContent = prefix + Math.round(obj.v) + suffix; },
+      onUpdate: () => {
+        const decimals = String(value).includes(".") ? String(value).split(".")[1].length : 0;
+        el.textContent = prefix + obj.v.toFixed(decimals) + suffix;
+      },
     });
   });
 
@@ -234,19 +202,9 @@
           onUpdate: (self) => { tlProgress.style.width = self.progress * 100 + "%"; },
         },
       });
-      gsap.from(".tl-card", {
-        opacity: 0, x: 80, duration: 0.8, ease: "power3.out", stagger: 0.1,
-        scrollTrigger: { trigger: tlPin, start: "top 75%" },
-      });
     },
     "(max-width: 900px)": () => {
-      if (prefersReduced) return;
-      document.querySelectorAll(".tl-card").forEach((card) => {
-        gsap.from(card, {
-          opacity: 0, y: 50, duration: 0.8, ease: "power3.out",
-          scrollTrigger: { trigger: card, start: "top 88%" },
-        });
-      });
+      return;
     },
   });
 
