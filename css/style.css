@@ -86,18 +86,43 @@ svg { display: block; }
   display: flex; justify-content: space-between; align-items: center;
   pointer-events: auto;
 }
+.logo-lock { display: flex; align-items: center; }
 .logo {
   width: 2.25rem; height: 2.25rem; border-radius: 0.4rem;
   background: var(--primary); color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 0.9rem; letter-spacing: -0.03em;
+  flex-shrink: 0;
   transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease);
   will-change: transform;
 }
 .logo svg { width: 66%; height: 66%; display: block; }
 .logo svg circle { transition: r 0.5s var(--ease-spring); }
-.logo:hover { transform: rotate(-8deg) scale(1.08); box-shadow: 0 6px 18px rgba(255, 92, 0, 0.35); }
-.logo:hover svg circle { r: 3.1; }
+.logo-lock:hover .logo, .logo-lock:focus-visible .logo {
+  transform: rotate(-8deg) scale(1.08); box-shadow: 0 6px 18px rgba(255, 92, 0, 0.35);
+}
+.logo-lock:hover .logo svg circle { r: 3.1; }
+
+/* wordmark that wipes in from the left on hover */
+.logo-name {
+  font-family: "Archivo", "Inter Tight", sans-serif;
+  font-weight: 800; text-transform: uppercase;
+  font-size: 0.7rem; line-height: 1; letter-spacing: -0.042em;
+  display: flex; flex-direction: column; white-space: nowrap;
+  color: var(--fg);
+  max-width: 0; opacity: 0; margin-left: 0;
+  clip-path: inset(0 100% 0 0);
+  transition: max-width 0.55s var(--ease), margin-left 0.55s var(--ease),
+              clip-path 0.6s var(--ease), opacity 0.35s var(--ease) 0.05s;
+}
+.logo-lock:hover .logo-name, .logo-lock:focus-visible .logo-name {
+  max-width: 8rem; opacity: 1; margin-left: 0.6rem;
+  clip-path: inset(0 0 0 0);
+}
+/* touch devices cannot hover, so the name is always present */
+@media (hover: none) {
+  .logo-name { max-width: 8rem; opacity: 1; margin-left: 0.6rem; clip-path: inset(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) { .logo-name { transition: none; } }
 .icon-btn {
   width: 2.5rem; height: 2.5rem;
   display: flex; align-items: center; justify-content: center;
