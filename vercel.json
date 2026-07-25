@@ -4,9 +4,15 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/",
       "has": [{ "type": "host", "value": "barretoportfolio.vercel.app" }],
-      "destination": "https://thallesbarreto.vercel.app/:path*",
+      "destination": "https://thallesbarreto.vercel.app/",
+      "permanent": true
+    },
+    {
+      "source": "/:path+",
+      "has": [{ "type": "host", "value": "barretoportfolio.vercel.app" }],
+      "destination": "https://thallesbarreto.vercel.app/:path+",
       "permanent": true
     }
   ]
