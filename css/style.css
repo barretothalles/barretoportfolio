@@ -94,7 +94,10 @@ svg { display: block; }
   transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease);
   will-change: transform;
 }
+.logo svg { width: 66%; height: 66%; display: block; }
+.logo svg circle { transition: r 0.5s var(--ease-spring); }
 .logo:hover { transform: rotate(-8deg) scale(1.08); box-shadow: 0 6px 18px rgba(255, 92, 0, 0.35); }
+.logo:hover svg circle { r: 3.1; }
 .icon-btn {
   width: 2.5rem; height: 2.5rem;
   display: flex; align-items: center; justify-content: center;
